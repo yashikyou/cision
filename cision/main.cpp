@@ -13,22 +13,11 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-
 using namespace std;
 
 void key_callback(GLFWwindow* win, int key, int scancode, int action, int mode);
 
 string read_shader_source(const char* filename);
-
-const GLchar* vertexShaderSource = "#version 330 core \n"
-"layout (location = 0) in vec3 position; \n"
-"void main() { \n"
-"gl_Position = vec4(position.x, position.y, position.z, 1.0); \n"
-"}";
-
-void render() {
-    
-}
 
 int main() {
     if (!glfwInit()) {
@@ -39,7 +28,8 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
+    
+    // for mac
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
     GLFWwindow* win = glfwCreateWindow(640, 480, "Cision", NULL, NULL);
@@ -59,6 +49,11 @@ int main() {
         return -1;
     }
     
+    // Define the viewport dimensions
+    int width, height;
+    glfwGetFramebufferSize(win, &width, &height);
+    glViewport(0, 0, width, height);
+    
     // paint triangle
     GLfloat vertices[] = {
         -0.5f, -0.5f, 0.0f,
@@ -66,13 +61,17 @@ int main() {
         0.0f, 0.5f, 0.0f
     };
     
-    GLuint VBO;
+    GLuint VAO, VBO;
     glGenBuffers(1, &VBO);
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid *)0);
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 
-    
-    
     GLuint vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
     
@@ -128,25 +127,27 @@ int main() {
         cout << "ERROR::LINK::SHADER_FAILED\n" << infoLog << endl;
     }
     
-    
-    
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid *)0);
-    glEnableVertexAttribArray(0);
-    
     glUseProgram(shaderProgram);
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindVertexArray(0);
     
-    someopen
-
     while(!glfwWindowShouldClose(win)) {
         glfwPollEvents();
         
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         
-        render();
+        // Draw our first triangle
+        glUseProgram(shaderProgram);
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glBindVertexArray(0);
         
         glfwSwapBuffers(win);
     }
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
     
     glfwTerminate();
     exit(EXIT_SUCCESS);
