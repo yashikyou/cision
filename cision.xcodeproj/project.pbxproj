@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		80BE704D20E2463900F42488 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80BE704C20E2463900F42488 /* main.cpp */; };
+		80BE705520E246C700F42488 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80BE705420E246C700F42488 /* Cocoa.framework */; };
+		80BE705720E246CC00F42488 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80BE705620E246CC00F42488 /* OpenGL.framework */; };
+		80BE705920E246E500F42488 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80BE705820E246E500F42488 /* GLUT.framework */; };
+		80BE705B20E246EE00F42488 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80BE705A20E246EE00F42488 /* CoreVideo.framework */; };
+		80BE705D20E246F800F42488 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80BE705C20E246F800F42488 /* IOKit.framework */; };
+		80BE705F20E2470600F42488 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 80BE705E20E2470600F42488 /* libglfw3.a */; };
+		80BE706120E2471200F42488 /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 80BE706020E2471200F42488 /* libGLEW.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +30,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		80727E9B20E3B734001D259F /* vertex-shader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "vertex-shader.glsl"; sourceTree = "<group>"; };
+		80727E9C20E3C138001D259F /* fragment-shader.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = "fragment-shader.glsl"; sourceTree = "<group>"; };
 		80BE704920E2463900F42488 /* cision */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cision; sourceTree = BUILT_PRODUCTS_DIR; };
-		80BE704C20E2463900F42488 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		80BE704C20E2463900F42488 /* main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = main.cpp; sourceTree = "<group>"; };
+		80BE705420E246C700F42488 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		80BE705620E246CC00F42488 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		80BE705820E246E500F42488 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		80BE705A20E246EE00F42488 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		80BE705C20E246F800F42488 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		80BE705E20E2470600F42488 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = ../GLFW_build/src/libglfw3.a; sourceTree = "<group>"; };
+		80BE706020E2471200F42488 /* libGLEW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEW.a; path = ../GLEW_build/lib/libGLEW.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +48,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80BE705F20E2470600F42488 /* libglfw3.a in Frameworks */,
+				80BE706120E2471200F42488 /* libGLEW.a in Frameworks */,
+				80BE705D20E246F800F42488 /* IOKit.framework in Frameworks */,
+				80BE705B20E246EE00F42488 /* CoreVideo.framework in Frameworks */,
+				80BE705920E246E500F42488 /* GLUT.framework in Frameworks */,
+				80BE705720E246CC00F42488 /* OpenGL.framework in Frameworks */,
+				80BE705520E246C700F42488 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +66,7 @@
 			children = (
 				80BE704B20E2463900F42488 /* cision */,
 				80BE704A20E2463900F42488 /* Products */,
+				80BE705320E246C700F42488 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,9 +81,25 @@
 		80BE704B20E2463900F42488 /* cision */ = {
 			isa = PBXGroup;
 			children = (
+				80727E9B20E3B734001D259F /* vertex-shader.glsl */,
 				80BE704C20E2463900F42488 /* main.cpp */,
+				80727E9C20E3C138001D259F /* fragment-shader.glsl */,
 			);
 			path = cision;
+			sourceTree = "<group>";
+		};
+		80BE705320E246C700F42488 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				80BE706020E2471200F42488 /* libGLEW.a */,
+				80BE705E20E2470600F42488 /* libglfw3.a */,
+				80BE705C20E246F800F42488 /* IOKit.framework */,
+				80BE705A20E246EE00F42488 /* CoreVideo.framework */,
+				80BE705820E246E500F42488 /* GLUT.framework */,
+				80BE705620E246CC00F42488 /* OpenGL.framework */,
+				80BE705420E246C700F42488 /* Cocoa.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,7 +272,10 @@
 		80BE705120E2463900F42488 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				LIBRARY_SEARCH_PATHS = "/usr/local/lib/**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -240,7 +283,10 @@
 		80BE705220E2463900F42488 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				LIBRARY_SEARCH_PATHS = "/usr/local/lib/**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
