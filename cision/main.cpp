@@ -6,7 +6,6 @@
 //  Copyright © 2018年 cxy. All rights reserved.
 //
 
-
 #import <Foundation/Foundation.h>
 #include <fstream>
 #include <iostream>
@@ -15,9 +14,9 @@
 
 using namespace std;
 
-void key_callback(GLFWwindow* win, int key, int scancode, int action, int mode);
+void key_callback(GLFWwindow*, int, int, int, int);
 
-string read_shader_source(const char* filename);
+string read_shader_source(const char*);
 
 int main() {
     if (!glfwInit()) {
@@ -51,17 +50,26 @@ int main() {
     
     // Define the viewport dimensions
     int width, height;
+    
     glfwGetFramebufferSize(win, &width, &height);
     glViewport(0, 0, width, height);
     
     // paint triangle
     GLfloat vertices[] = {
+        -0.5f, 0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
+        0.0f, -0.5f, 0.0f
+    };
+    
+    GLfloat vertices2[] = {
+        0.0f, -0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
         0.0f, 0.5f, 0.0f
     };
     
-    GLuint VAO, VBO;
+    // init VAO, VBO
+    GLuint VAO, VBO, VAO2, VBO2;
+    
     glGenBuffers(1, &VBO);
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -69,9 +77,19 @@ int main() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid *)0);
     glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glGenBuffers(1, &VBO2);
+    glGenVertexArrays(1, &VAO2);
+    glBindVertexArray(VAO2);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid *)0);
+    glEnableVertexAttribArray(0);
+    
+    // unbind buffer object
     glBindVertexArray(0);
-
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
     GLuint vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
     
@@ -112,13 +130,30 @@ int main() {
         cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << endl;
     }
     
+    GLuint fragmentShader2;
+    fragmentShader2 = glCreateShader(GL_FRAGMENT_SHADER);
+
+    // read glsl
+    gl_str = read_shader_source("/Users/cxy/project/private/cision/cision/fragment-shader-yellow.glsl");
+    cout << gl_str << "read file over ~" << endl;
+    glsl[0] = gl_str.c_str();
+
+    glShaderSource(fragmentShader2, 1, glsl, NULL);
+    glCompileShader(fragmentShader2);
+
+    glGetShaderiv(fragmentShader2, GL_COMPILE_STATUS, &success);
+
+    if(!success) {
+        glGetShaderInfoLog(fragmentShader2, 512, NULL, infoLog);
+        cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << endl;
+    }
+    
     GLuint shaderProgram;
     shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
     
-    glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
     
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
@@ -127,10 +162,23 @@ int main() {
         cout << "ERROR::LINK::SHADER_FAILED\n" << infoLog << endl;
     }
     
-    glUseProgram(shaderProgram);
-    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    glBindVertexArray(0);
+    GLuint shaderProgram2;
+    shaderProgram2 = glCreateProgram();
+    glAttachShader(shaderProgram2, vertexShader);
+    glAttachShader(shaderProgram2, fragmentShader2);
+    glLinkProgram(shaderProgram2);
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader2);
+
+    glGetProgramiv(shaderProgram2, GL_LINK_STATUS, &success);
+    if(!success) {
+        glGetProgramInfoLog(shaderProgram2, 512, NULL, infoLog);
+        cout << "ERROR::LINK::SHADER_FAILED\n" << infoLog << endl;
+    }
+    
+    // use line mode
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     
     while(!glfwWindowShouldClose(win)) {
         glfwPollEvents();
@@ -138,9 +186,13 @@ int main() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         
-        // Draw our first triangle
+        // Draw rect with two triangle
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        
+        glUseProgram(shaderProgram2);
+        glBindVertexArray(VAO2);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         glBindVertexArray(0);
         
@@ -148,6 +200,8 @@ int main() {
     }
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
+    glDeleteVertexArrays(1, &VAO2);
+    glDeleteBuffers(1, &VBO2);
     
     glfwTerminate();
     exit(EXIT_SUCCESS);
@@ -167,6 +221,6 @@ string read_shader_source(const char* filename) {
     if (!file.good()) {
         cout << "failed to load file " << filename;
     }
-    
     return string(istreambuf_iterator<char>(file), istreambuf_iterator<char>());
 }
+

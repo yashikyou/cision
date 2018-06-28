@@ -30,6 +30,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8060972720E4BC35004F2C3D /* fragment-shader-yellow.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = "fragment-shader-yellow.glsl"; sourceTree = "<group>"; };
 		80727E9B20E3B734001D259F /* vertex-shader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "vertex-shader.glsl"; sourceTree = "<group>"; };
 		80727E9C20E3C138001D259F /* fragment-shader.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = "fragment-shader.glsl"; sourceTree = "<group>"; };
 		80BE704920E2463900F42488 /* cision */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cision; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,6 +85,7 @@
 				80727E9B20E3B734001D259F /* vertex-shader.glsl */,
 				80BE704C20E2463900F42488 /* main.cpp */,
 				80727E9C20E3C138001D259F /* fragment-shader.glsl */,
+				8060972720E4BC35004F2C3D /* fragment-shader-yellow.glsl */,
 			);
 			path = cision;
 			sourceTree = "<group>";
